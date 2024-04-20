@@ -1,118 +1,165 @@
-import Image from "next/image";
-import { Inter } from "next/font/google";
 
-const inter = Inter({ subsets: ["latin"] });
+import React,{useState,useEffect} from 'react'
+import { FaBell,FaSync,FaEnvelope, FaDownload  } from 'react-icons/fa';
 
-export default function Home() {
+const index = () => {
+
+
   return (
-    <main
-      className={`flex min-h-screen flex-col items-center justify-between p-24 ${inter.className}`}
-    >
-      <div className="z-10 max-w-5xl w-full items-center justify-between font-mono text-sm lg:flex">
-        <p className="fixed left-0 top-0 flex w-full justify-center border-b border-gray-300 bg-gradient-to-b from-zinc-200 pb-6 pt-8 backdrop-blur-2xl dark:border-neutral-800 dark:bg-zinc-800/30 dark:from-inherit lg:static lg:w-auto lg:rounded-xl lg:border lg:bg-gray-200 lg:p-4 lg:dark:bg-zinc-800/30">
-          Get started by editing&nbsp;
-          <code className="font-mono font-bold">pages/index.js</code>
-        </p>
-        <div className="fixed bottom-0 left-0 flex h-48 w-full items-end justify-center bg-gradient-to-t from-white via-white dark:from-black dark:via-black lg:static lg:h-auto lg:w-auto lg:bg-none">
-          <a
-            className="pointer-events-none flex place-items-center gap-2 p-8 lg:pointer-events-auto lg:p-0"
-            href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            By{" "}
-            <Image
-              src="/vercel.svg"
-              alt="Vercel Logo"
-              className="dark:invert"
-              width={100}
-              height={24}
-              priority
-            />
-          </a>
+    <div className='bg-white min-h-screen'>
+
+       <><div className="bg-white  text-red-400">
+         <div className="text-center text-red-400">
+              <h1 className="text-2xl font-bold mb-2">KOLKATAFF.WIN</h1>
+            </div>
+            <div className="h-1 bg-red-400"></div>
+            <div className="flex items-center justify-center text-red-400">
+  <img src="data:image/png;base64,R0lGODlhJgAPAPMGAP/////MzP+Zmf9mZv8zM/8AAMzM/5mZ/5lm/2Yz/zMA/wAAAAAAAAAAAAAAAAAAACH/C05FVFNDQVBFMi4wAwEAAAAh+QQFAAAGACwAAAAAJgAPAAADgWi63P4wyjmDvcFgy/YFmpcZRWkWxnCWA6iuRQYXg1ISOJ7eOLsXOZwMGBTYYg0VYaHcLR2lUSOaBDJpzs1RgAGRVpkX+Hd6zkY8Ifk2egVr3yABjWQ0X0bngwqtX58EVE19Ugx8fwoBNz9yRmk4cIcKgwYCLGInNTNPFJ2en6ANCQAh+QQFAAAAACwBAAIAJAALAAAEddDIaQCVINuLN1dgqACICCZZaSrVqqhJHJNnDCK0Isetvh+gioaGyiR0xKEmqGQOS0XAEQW9ZEAHCmBVUZm6q6LLUOPlQgkhTIbb+mRklhKaO6SQSrdwKX/ij3J0eU58e3dFcVRlMXaLCSqGSRlAL14iOC4JEQA7" alt="Left Image" className="h-2 w-4 mr-2" />
+  <div className="text-center">
+    <h1 className="text-2xl font-bold mb-2">KOLKATA FF TIPS</h1>
+  </div>
+  <img src="data:image/png;base64,R0lGODlhJgAPAPMGAP/////MzP+Zmf9mZv8zM/8AAMzM/5mZ/5lm/2Yz/zMA/wAAAAAAAAAAAAAAAAAAACH/C05FVFNDQVBFMi4wAwEAAAAh+QQFAAAGACwAAAAAJgAPAAADgWi63P4wyjmDvcFgy/YFmpcZRWkWxnCWA6iuRQYXg1ISOJ7eOLsXOZwMGBTYYg0VYaHcLR2lUSOaBDJpzs1RgAGRVpkX+Hd6zkY8Ifk2egVr3yABjWQ0X0bngwqtX58EVE19Ugx8fwoBNz9yRmk4cIcKgwYCLGInNTNPFJ2en6ANCQAh+QQFAAAAACwBAAIAJAALAAAEddDIaQCVINuLN1dgqACICCZZaSrVqqhJHJNnDCK0Isetvh+gioaGyiR0xKEmqGQOS0XAEQW9ZEAHCmBVUZm6q6LLUOPlQgkhTIbb+mRklhKaO6SQSrdwKX/ij3J0eU58e3dFcVRlMXaLCSqGSRlAL14iOC4JEQA7" alt="Right Image" className="h-2 w-4 ml-2" />
+</div>
+<div className="bg-gradient-to-r from-red-300 to-green-500 py-2 text-white text-center">
+      <div className="flex items-center justify-center">
+      <FaBell className="text-sm md:text-xl text-red-500 mr-2" />
+      <h1 class="animate-text bg-gradient-to-r from-teal-500 via-purple-500 to-orange-500 bg-clip-text text-transparent text-2xl font-black">
+    LIVE RESULT
+</h1>
+      <FaBell className="text-sm md:text-xl text-red-500 ml-2" />
+    </div>
+      </div>
+
+      <div class="flex flex-col items-center justify-center bg-gray-900 py-2">
+  <h1 class="text-lg text-white font-medium">19/03/2024</h1>
+  <div class="flex flex-col mt-4">
+    <div class="-my-2 overflow-x-auto">
+      <div class="py-2 align-middle inline-block min-w-full">
+        <div class="shadow overflow-hidden sm:rounded-lg">
+          <table class="min-w-full text-sm text-white border border-white">
+            <thead class="bg-red-400 text-white text-xs uppercase font-medium">
+              <tr>
+                <th scope="col" class="px-6 py-3 text-left border-b-2 border-white tracking-wider">
+                  1
+                </th>
+                <th scope="col" class="px-6 py-3 text-left border-b-2 border-white tracking-wider">
+                  2
+                </th>
+                <th scope="col" class="px-6 py-3 text-left border-b-2 border-white tracking-wider">
+                  3
+                </th>
+                <th scope="col" class="px-6 py-3 text-left border-b-2 border-white tracking-wider">
+                  4
+                </th>
+                <th scope="col" class="px-6 py-3 text-left border-b-2 border-white tracking-wider">
+                  5
+                </th>
+                <th scope="col" class="px-6 py-3 text-left border-b-2 border-white tracking-wider">
+                  6
+                </th>
+                <th scope="col" class="px-6 py-3 text-left border-b-2 border-white tracking-wider">
+                  7
+                </th>
+                <th scope="col" class="px-6 py-3 text-left border-b-2 border-white tracking-wider">
+                  8
+                </th>
+              </tr>
+            </thead>
+            <tbody class="bg-gray-800">
+              <tr class="border-b border-white">
+                <td class="px-6 py-4 whitespace-nowrap border-r border-white">852</td>
+                <td class="px-6 py-4 whitespace-nowrap border-r border-white">502</td>
+                <td class="px-6 py-4 whitespace-nowrap border-r border-white">230</td>
+                <td class="px-6 py-4 whitespace-nowrap border-r border-white">855</td>
+                <td class="px-6 py-4 whitespace-nowrap border-r border-white">102</td>
+                <td class="px-6 py-4 whitespace-nowrap border-r border-white">750</td>
+                <td class="px-6 py-4 whitespace-nowrap border-r border-white">520</td>
+                <td class="px-6 py-4 whitespace-nowrap border-r border-white">620</td>
+              </tr>
+              <tr class="border-b border-white">
+                <td class="px-6 py-4 whitespace-nowrap border-r border-white">5</td>
+                <td class="px-6 py-4 whitespace-nowrap border-r border-white">7</td>
+                <td class="px-6 py-4 whitespace-nowrap border-r border-white">5</td>
+                <td class="px-6 py-4 whitespace-nowrap border-r border-white">8</td>
+                <td class="px-6 py-4 whitespace-nowrap border-r border-white">3</td>
+                <td class="px-6 py-4 whitespace-nowrap border-r border-white">2</td>
+                <td class="px-6 py-4 whitespace-nowrap border-r border-white">7</td>
+                <td class="px-6 py-4 whitespace-nowrap border-r border-white">8</td>
+              </tr>
+            </tbody>
+          </table>
         </div>
       </div>
+    </div>
+  </div>
+</div>
 
-      <div className="relative flex place-items-center before:absolute before:h-[300px] before:w-full sm:before:w-[480px] before:-translate-x-1/2 before:rounded-full before:bg-gradient-radial before:from-white before:to-transparent before:blur-2xl before:content-[''] after:absolute after:-z-20 after:h-[180px] after:w-full sm:after:w-[240px] after:translate-x-1/3 after:bg-gradient-conic after:from-sky-200 after:via-blue-200 after:blur-2xl after:content-[''] before:dark:bg-gradient-to-br before:dark:from-transparent before:dark:to-blue-700/10 after:dark:from-sky-900 after:dark:via-[#0141ff]/40 before:lg:h-[360px]">
-        <Image
-          className="relative dark:drop-shadow-[0_0_0.3rem_#ffffff70] dark:invert"
-          src="/next.svg"
-          alt="Next.js Logo"
-          width={180}
-          height={37}
-          priority
-        />
+<div className="bg-gradient-to-r from-red-300 to-green-500 py-2 text-white text-center">
+      <div className="flex items-center justify-center">
+        <button
+          className="flex items-center justify-center bg-white text-red-500 rounded-full w-8 h-8 focus:outline-none hover:bg-red-500 hover:text-white transition duration-300 mr-2"
+        >
+          <FaSync size={16} />
+        </button>
+        <span className="text-white">Refresh</span>
       </div>
+    </div>
 
-      <div className="mb-32 grid text-center lg:max-w-5xl lg:w-full lg:mb-0 lg:grid-cols-4 lg:text-left">
-        <a
-          href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=default-template-tw&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Docs{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Find in-depth information about Next.js features and API.
-          </p>
-        </a>
-
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=default-template-tw&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Learn{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Learn about Next.js in an interactive course with&nbsp;quizzes!
-          </p>
-        </a>
-
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=default-template-tw&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Templates{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Discover and deploy boilerplate example Next.js&nbsp;projects.
-          </p>
-        </a>
-
-        <a
-          href="https://vercel.com/new?utm_source=create-next-app&utm_medium=default-template-tw&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Deploy{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50 text-balance`}>
-            Instantly deploy your Next.js site to a shareable URL with Vercel.
-          </p>
-        </a>
+    <div className="bg-gradient-to-r from-orange-300 to-pink-400 p-4">
+      <h1 className="text-xl font-bold text-center text-white">KOLKATA FATAFAT GHOSH BABU TIPS</h1>
+      <h2 className="text-md font-bold text-center text-white">Kolkata FF Fatafat Tips</h2>
+      <h3 className="text-md font-bold mb-1 text-center text-white">WWW.KOLKATAFF.WIN</h3>
+      <div className="flex justify-center space-x-4 mt-4">
+        {/* Subscribe Fast Result Button */}
+        <button className="flex items-center justify-center bg-white text-orange-400 rounded-full py-2 px-4 focus:outline-none hover:bg-orange-400 hover:text-white transition duration-300">
+          <FaEnvelope className="mr-2" />
+          Subscribe Fast Result
+        </button>
+        {/* Download App Button */}
+        <button className="flex items-center justify-center bg-white text-pink-400 rounded-full py-2 px-4 focus:outline-none hover:bg-pink-400 hover:text-white transition duration-300">
+          <FaDownload className="mr-2" />
+          Download App
+        </button>
       </div>
-    </main>
-  );
+      <h1 className="text-xl font-bold text-center text-white">KOLKATA FF ONLINE PLAY APP</h1>
+    </div>
+
+    <div className="bg-gradient-to-r from-red-300 to-green-500 py-2 text-white text-center">
+  <p className="text-lg font-medium">
+    Kolkata FF Fatafat, Kolkata FF, Kolkata Fatafat, Kolkata FF Tips Win, Win Big with Kolkata FF, Expert Tips from Ghosh Babu - Kolkata Fatafat, kolkata ff ghosh, Unlock the secrets to winning big in Kolkata FF with expert tips and tricks. Stay ahead of the game and increase your chances of winning with Kolkata Fatafat Ghosh Babu's exclusive insights. Get real-time Kolkata FF results and take your gaming experience to the next level. kolkata fatafat lucky number Start playing like a pro today! Search On Google <a href="https://kolkataff.in.com.net.mobi.win.fun" className="underline">kolkataff.in.com.net.mobi.win.fun</a>
+  </p>
+</div>
+<div className='bg-black overflow-x-auto'>
+            <div className="flex border border-white rounded-md items-center">
+              <h1 className="text-lg font-bold text-red-400">
+                <span className="animate-marquee">
+                Disclaimer - KOLKATA FF LOTTERY MAY BE BAN IN YOUR COUNTRY/STATE. VISIT THIS WEBSITE AT YOUR OWN RISK. CAUSE TO ANY LOSS WILL BE YOUR RESPONSIBILITY SO PLAY SAFE!
+                </span>
+              </h1>
+            </div>
+          </div>
+
+
+       
+
+        </div>
+       
+          </>
+    
+    </div>
+  )
+
 }
+
+
+function handleRefresh(index) {
+  // Simulate refreshing data by generating random numbers
+  const updatedResults = [...results];
+  updatedResults[index].value = `${Math.floor(
+    Math.random() * 1000
+  )}-${Math.floor(Math.random() * 10)}`;
+  setResults(updatedResults);
+}
+
+
+export default index
