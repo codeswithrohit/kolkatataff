@@ -25,9 +25,15 @@ body {
     )
     rgb(var(--background-start-rgb));
 }
-
-@layer utilities {
-  .text-balance {
-    text-wrap: balance;
-  }
+.animate-marquee {
+  display: inline-block;
+  white-space: nowrap; /* Prevent text from wrapping */
+  overflow: hidden; /* Hide overflowing content */
+  animation: marquee 25s linear infinite;
 }
+
+@keyframes marquee {
+  0% { transform: translateX(100%); }
+  100% { transform: translateX(-100%); }
+}
+

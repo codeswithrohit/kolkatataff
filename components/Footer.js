@@ -3,7 +3,7 @@ import { FaFacebook, FaTwitter, FaWhatsapp } from 'react-icons/fa'
 const Footer = () => {
   return (
     <div>
-      <footer class="bg-gray-900 text-gray-300 py-5 sm:px-16 px-6 font-[sans-serif]">
+      {/* <footer class="bg-gray-900 text-gray-300 py-5 sm:px-16 px-6 font-[sans-serif]">
       <div class="lg:flex lg:justify-between lg:items-center max-lg:text-center">
        
         <ul class="flex space-x-6 gap-y-2 max-lg:mt-4 max-lg:justify-center flex-wrap">
@@ -16,7 +16,8 @@ const Footer = () => {
           <li><a href="javascript:void(0)" class="text-base hover:text-white">Sitemap</a></li>
         </ul>
       </div>
-    </footer>
+    </footer> */}
+      
     <footer class="bg-gray-800 text-white py-4 px-2 font-[sans-serif]">
   <div class="flex flex-col items-center">
     <h1 class="text-xl font-bold mb-4">KOLKATAFF.WIN</h1>
