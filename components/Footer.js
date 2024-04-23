@@ -20,7 +20,7 @@ const Footer = () => {
       
     <footer class="bg-gray-800 text-white py-4 px-2 font-[sans-serif]">
   <div class="flex flex-col items-center">
-    <h1 class="text-xl font-bold mb-4">KOLKATAFF.WIN</h1>
+    <h1 class="text-xl font-bold mb-4">KOLKATAFF.ES</h1>
     <ul className="flex space-x-4">
   <li>
     <a href="javascript:void(0)" className="text-xl hover:text-blue-400">
@@ -39,7 +39,7 @@ const Footer = () => {
   </li>
 </ul>
 <h1 class="text-sm font-bold mt-4">© ALL RIGHT RESERVED (2017-2035)</h1>
-<h2 class="text-sm font-semibold">Email: support@kolkataff.win</h2>
+<h2 class="text-sm font-semibold">Email: support@KOLKATAFF.ES</h2>
 <h3 class="text-sm font-semibold">KOLKATA FATAFAT GADDI OFFICIAL WEBSITE</h3>
   </div>
   <div className="text-center bg-white text-red-400 mt-2">

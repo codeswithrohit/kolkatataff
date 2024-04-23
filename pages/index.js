@@ -12,6 +12,25 @@ const Index = () => {
   const [tableData, setTableData] = useState([]);
   const [showSpinner, setShowSpinner] = useState(false);
   const [currentDate, setCurrentDate] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
+  const [contactData, setContactData] = useState([]);
+
+  const fetchContactData = async () => {
+    try {
+      setIsLoading(true);
+      const contactRef = await db.collection('contact_details').get();
+      const fetchedContactData = contactRef.docs.map((doc) => ({
+        id: doc.id,
+        ...doc.data(),
+      }));
+      setContactData(fetchedContactData);
+    } catch (error) {
+      console.error('Error fetching contact details: ', error);
+      toast.error('Failed to fetch contact details.');
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   useEffect(() => {
     // Function to get the current date in "DD/MM/YYYY" format
@@ -28,6 +47,7 @@ const Index = () => {
   }, []);
   useEffect(() => {
     fetchData();
+    fetchContactData();
   }, []);
 
   const fetchData = async () => {
@@ -60,6 +80,16 @@ const Index = () => {
     fetchData(); // Call fetchData to refresh data
   };
 
+  const handleCall = (number) => {
+    // Call the mobile number
+    window.location.href = `tel:${number}`;
+  };
+
+  const handleWhatsApp = (number) => {
+    // Open WhatsApp with the WhatsApp number
+    window.location.href = `https://wa.me/${number}`;
+  };
+
   return (
     <div className='bg-[#c4fd16] min-h-screen'>
       {showSpinner && (
@@ -75,7 +105,7 @@ const Index = () => {
       )}
       <><div className="bg-white  text-red-400">
         <div className="text-center text-red-400">
-          <h1 className="text-2xl font-bold mb-2">KOLKATAFF.WIN</h1>
+          <h1 className="text-2xl font-bold mb-2">KOLKATAFF.ES</h1>
         </div>
         <div className="h-1 bg-red-400"></div>
         <div className="flex items-center justify-center text-red-400">
@@ -110,25 +140,25 @@ const Index = () => {
           </div>
         </div>
 
-        <div className="bg-gradient-to-r from-gray-800 to-black text-white p-4">
+        {/* <div className="bg-gradient-to-r from-gray-800 to-black text-white p-4">
 
           <h1 className="text-xl font-bold text-center text-white">KOLKATA FATAFAT GHOSH BABU TIPS</h1>
           <h2 className="text-md font-bold text-center text-white">Kolkata FF Fatafat Tips</h2>
-          <h3 className="text-md font-bold mb-1 text-center text-white">WWW.KOLKATAFF.WIN</h3>
+          <h3 className="text-md font-bold mb-1 text-center text-white">WWW.KOLKATAFF.ES</h3>
           <div className="flex justify-center space-x-4 mt-4">
-            {/* Subscribe Fast Result Button */}
+            
             <button className="flex items-center justify-center bg-white text-orange-400 rounded-full py-2 px-4 focus:outline-none hover:bg-orange-400 hover:text-white transition duration-300">
               <FaEnvelope className="mr-2" />
               Subscribe Fast Result
             </button>
-            {/* Download App Button */}
+          
             <button className="flex items-center justify-center bg-white text-pink-400 rounded-full py-2 px-4 focus:outline-none hover:bg-pink-400 hover:text-white transition duration-300">
               <FaDownload className="mr-2" />
               Download App
             </button>
           </div>
           <h1 className="text-xl font-bold text-center text-white">KOLKATA FF ONLINE PLAY APP</h1>
-        </div>
+        </div> */}
 
         <div className="bg-gradient-to-r from-red-300 to-green-500 py-2 text-white text-center">
           <p className="text-lg font-medium">
@@ -151,23 +181,24 @@ const Index = () => {
             <p class=" text-green-700 md:text-md font-bold">Booking Only 2150rs Taka</p>
             <p class=" text-green-700 md:text-md font-bold">Advance Payment</p>
             <p class=" text-green-700 md:text-md font-bold">Booking For Call</p>
-
-            <div className="flex flex-row items-center justify-center mt-2">
-              <a
-                href="#"
-                className="inline-flex items-center justify-center px-5 py-3 mr-3 text-base font-medium text-center text-white rounded-lg bg-red-600 hover:bg-red-700 focus:ring-4 focus:ring-blue-500"
-              >
-                <FaPhone className="w-5 h-5 mr-2" />
-                Call
-              </a>
-              <a
-                href="#"
-                className="inline-flex items-center justify-center px-5 py-3 mr-3 text-base font-medium text-center text-white rounded-lg bg-green-600 hover:bg-green-700 focus:ring-4 focus:ring-green-500"
-              >
-                <FaWhatsapp className="w-5 h-5 mr-2" />
-                WhatsApp
-              </a>
-            </div>
+            {contactData.map((contact) => (
+            <div key={contact.id} className="flex flex-row items-center justify-center mt-2">
+            <button
+              onClick={() => handleCall(contact.mobileNumber)}
+              className="inline-flex items-center justify-center px-5 py-3 mr-3 text-base font-medium text-center text-white rounded-lg bg-red-600 hover:bg-red-700 focus:ring-4 focus:ring-blue-500"
+            >
+              <FaPhone className="w-5 h-5 mr-2" />
+              Call
+            </button>
+            <button
+              onClick={() => handleWhatsApp(contact.whatsappNumber)}
+              className="inline-flex items-center justify-center px-5 py-3 mr-3 text-base font-medium text-center text-white rounded-lg bg-green-600 hover:bg-green-700 focus:ring-4 focus:ring-green-500"
+            >
+              <FaWhatsapp className="w-5 h-5 mr-2" />
+              WhatsApp
+            </button>
+          </div>
+            ))}
           </div>
         </div>
         <div className="text-center text-red-400">
@@ -185,8 +216,22 @@ const Index = () => {
         <link rel="stylesheet" href="https://demos.creative-tim.com/notus-js/assets/styles/tailwind.css"/>
 <link rel="stylesheet" href="https://demos.creative-tim.com/notus-js/assets/vendor/@fortawesome/fontawesome-free/css/all.min.css"/>
  
- 
+<div className='bg-blue-50 px-4 py-4 cursor-pointer' >
+          <Link href='/membership' >
+        <div className="text-center  bg-gray-500 text-white rounded-lg">
+          <h1 className="text-2xl font-bold">KOLKATA FF VIP MEMBERSHIP</h1>
+        </div>
+        </Link>
+        </div>
+<div className='bg-blue-50 px-4 cursor-pointer' >
+          <Link href='/fullchart' >
+        <div className="text-center  bg-gray-500 text-white rounded-lg">
+          <h1 className="text-2xl font-bold">KOLKATA FATAFAT RESULT</h1>
+        </div>
+        </Link>
+        </div>
 <section className="py-4 bg-blue-50 md:px-48">
+
   <div className="w-full xl:w-2/3 px-4 mx-auto mt-2">
     <div className="overflow-hidden rounded-lg border border-gray-200">
       <div className="bg-blue-400 px-4 py-3">
@@ -207,69 +252,69 @@ const Index = () => {
               </th>
             </tr>
           </thead>
-          <tbody className="divide-y divide-gray-200">
+          <tbody className="divide-y divide-gray-800">
             <tr>
-              <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-600">
-                1
+              <td className="px-6 py-4 font-bold whitespace-nowrap text-sm text-gray-600">
+              1st Bazi
               </td>
-              <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-600">
-                10:00
+              <td className="px-6 py-4 font-bold whitespace-nowrap text-sm text-gray-600">
+                10:00 🕙
               </td>
             </tr>
             <tr>
-              <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-600">
-                2
+              <td className="px-6 py-4 font-bold whitespace-nowrap text-sm text-gray-600">
+                2nd Bazi
               </td>
-              <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-600">
-                11:30
-              </td>
-            </tr>
-            <tr>
-              <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-600">
-                3
-              </td>
-              <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-600">
-                1:00
+              <td className="px-6 py-4 font-bold whitespace-nowrap text-sm text-gray-600">
+                11:30 🕙
               </td>
             </tr>
             <tr>
-              <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-600">
-                4
+              <td className="px-6 py-4 font-bold whitespace-nowrap text-sm text-gray-600">
+                3rd Bazi
               </td>
-              <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-600">
-                2:30
-              </td>
-            </tr>
-            <tr>
-              <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-600">
-                5
-              </td>
-              <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-600">
-                4:00
+              <td className="px-6 py-4 font-bold whitespace-nowrap text-sm text-gray-600">
+                1:00 🕙
               </td>
             </tr>
             <tr>
-              <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-600">
-                6
+              <td className="px-6 py-4 font-bold whitespace-nowrap text-sm text-gray-600">
+                4th Bazi
               </td>
-              <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-600">
-                5:30
-              </td>
-            </tr>
-            <tr>
-              <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-600">
-                7
-              </td>
-              <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-600">
-                7:00
+              <td className="px-6 py-4 font-bold whitespace-nowrap text-sm text-gray-600">
+                2:30 🕙
               </td>
             </tr>
             <tr>
-              <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-600">
-                8
+              <td className="px-6 py-4 font-bold whitespace-nowrap text-sm text-gray-600">
+                5th Bazi
               </td>
-              <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-600">
-                8:30
+              <td className="px-6 py-4 font-bold whitespace-nowrap text-sm text-gray-600">
+                4:00 🕙
+              </td>
+            </tr>
+            <tr>
+              <td className="px-6 py-4 font-bold whitespace-nowrap text-sm text-gray-600">
+                6th Bazi
+              </td>
+              <td className="px-6 py-4 font-bold whitespace-nowrap text-sm text-gray-600">
+                5:30 🕙
+              </td>
+            </tr>
+            <tr>
+              <td className="px-6 py-4 font-bold whitespace-nowrap text-sm text-gray-600">
+                7th Bazi
+              </td>
+              <td className="px-6 py-4 font-bold whitespace-nowrap text-sm text-gray-600">
+                7:00 🕙
+              </td>
+            </tr>
+            <tr>
+              <td className="px-6 py-4 font-bold whitespace-nowrap text-sm text-gray-600">
+                8th Bazi
+              </td>
+              <td className="px-6 py-4 font-bold whitespace-nowrap text-sm text-gray-600">
+                8:30 🕙
               </td>
             </tr>
           </tbody>
@@ -280,7 +325,7 @@ const Index = () => {
 </section>
 
 <div className="bg-gradient-to-r from-gray-800 to-black text-white p-8  shadow-lg">
-  <h2 className="text-lg text-center font-bold mb-4">Kolkata Fatafat Tips & Win Big with Kolkata FF: Pro Tips from Ghosh Babu</h2>
+  <h2 className="text-lg text-center font-bold mb-4">"Kolkata Fatafat Tips: Win Big with Kolkata FF - Expert Advice from Ghosh Babu"</h2>
   <p className="text-sm font-semibold leading-relaxed text-center">Get insider tips and the latest results for Kolkata FF (Fatafat) with Ghosh Babu's expert advice. Boost your chances of winning big in this popular game with our proven strategies. সরাসরি এখানে আসুন কারণ এই হলুদ ওয়েবসাইটটি এখান থেকে ফলাফল চুরি করে অন্যথায় আমাদের ঘোষবাবু ওয়েবসাইট থেকে। Stay ahead of the competition and increase your profits with Kolkata FF tips. Don't miss out on your chance to win - start playing now!</p>
   <p className="text-sm font-semibold leading-relaxed text-center">Looking for Kolkata FF tips and results? Ghosh Babu's expert insights and strategies can help you crack the Kolkata Fatafat game. Stay ahead of the competition with our proven techniques and increase your chances of winning big. Get the latest Kolkata FF results and boost your success rate today!</p>
   <p className="text-sm font-semibold leading-relaxed text-center">Unlock the secrets to winning big in Kolkata FF with expert tips and tricks. Stay ahead of the game and increase your chances of winning with Kolkata Fatafat Ghosh Babu's exclusive insights. Get real-time Kolkata FF results and take your gaming experience to the next level. Start playing like a pro today!</p>
@@ -291,10 +336,11 @@ const Index = () => {
   <p className="text-sm font-semibold leading-relaxed text-center">Are you ready to win big with Kolkata FF? Look no further, because we have expert tips from none other than Ghosh Babu himself - the master of Kolkata Fatafat! Kolkata FF has become a popular game of luck and strategy, captivating the hearts of many players. kolkata ff live But how can you increase your chances of winning? That's where Ghosh Babu's invaluable tips come in. As a seasoned player with years of experience, Ghosh Babu has cracked the code to success in Kolkata Fatafat. He knows the ins and outs of this thrilling game and is here to share his wisdom with you. Whether you're a beginner or a seasoned player, Ghosh Babu's tips will give you that extra edge. From understanding the nuances of Kolkata FF to predicting results more accurately, his expertise will guide you towards bigger wins. Don't miss out on this opportunity to learn from the best. With Ghosh Babu's insider knowledge and strategic advice, you can elevate your Kolkata Fatafat game to new heights. Get ready to turn your luck around and conquer Kolkata FF like never before! So what are you waiting for? Dive into this section for exclusive tips from Ghosh Babu himself and get ready to win big in Kolkata Fatafat!</p>
 
 
-  <h2 className="text-lg text-center font-bold mb-4 mt-2">Win Big with Kolkata FF! Expert Tips from Ghosh Babu - Kolkata Fatafat</h2>
-  <p className="text-sm font-semibold leading-relaxed text-center">Kolkata Fatafat Game satta play is a very popular game in West Bengal. This game is played every day from 09:00 AM to 08:30 PM. In this game, you have to guess the numbers which will be drawn in a lottery. If you guess the right numbers, you will win a prize.</p>
-  <p className="text-sm font-semibold leading-relaxed text-center">There are two types of bets in Kolkata Fatafat Game: Ghar and Patti. In Ghar bet, you have to guess the numbers which will be drawn in a single round of lottery. In Patti bet, you have to guess the numbers which will be drawn in lottery.</p>
-  <h3 className="text-lg text-center font-semibold  mt-1">Tips for Kolkata Fatafat Game:</h3>
+
+  <h2 className="text-lg text-center font-bold mb-4 mt-2">Win big with Kolkata FF! Expert Tips from Ghosh Babu – Fatafat in Kolkata</h2>
+  <p className="text-sm font-semibold leading-relaxed text-center">Kolkata Fatafat Game Satta Play is a very popular game in West Bengal. The game is played daily from 9:00 a.m. to 8:30 p.m. In this game you have to guess the numbers drawn in the lottery. If you guess the number correctly, you win a prize.</p>
+  <p className="text-sm font-semibold leading-relaxed text-center">There are two types of bets in the Kolkata Fatafat game: Ghar and Patti. Gal betting involves guessing the numbers drawn in a single lottery round. Patty betting involves guessing the numbers that will be drawn in the lottery.</p>
+  <h3 className="text-lg text-center font-semibold  mt-1">Kolkata Fatafat Game Tips:</h3>
   <ul className=" pl-6">
     <li className="text-sm font-semibold leading-relaxed text-center">Study the past Kolkata FF results: The past results of Kolkata Fatafat Game can give you a good idea of which numbers are drawn more often. You can use this information to make your bets.</li>
     <li className="text-sm font-semibold leading-relaxed text-center">Use a combination of numbers: Instead of betting on a single number, you can bet on a combination of numbers. This will increase your chances of winning.</li>

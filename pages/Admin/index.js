@@ -3,25 +3,30 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { firebase } from '../../Firebase/config';
 import 'firebase/firestore';
-import MonthPicker from '../../components/MonthPicker'; // Import the MonthPicker component
+import MonthPicker from '../../components/MonthPicker';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
+import Link from 'next/link';
+
 const db = firebase.firestore();
 
 const Index = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isModalOpen2, setIsModalOpen2] = useState(false);
   const [number, setNumber] = useState([]);
   const [selectedDate, setSelectedDate] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [tableData, setTableData] = useState([]);
-  const [editDocId, setEditDocId] = useState(null); // Track the document ID being edited
+  const [editDocId, setEditDocId] = useState(null);
   const [showSpinner, setShowSpinner] = useState(false);
   const [selectedMonth, setSelectedMonth] = useState(null);
   const [selectedYear, setSelectedYear] = useState(null);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage] = useState(10);
 
   useEffect(() => {
     fetchData();
-  }, []);
+  }, [selectedMonth, selectedYear]); // Fetch data when month or year changes
 
   const fetchData = async () => {
     try {
@@ -29,7 +34,7 @@ const Index = () => {
       const dataRef = await db.collection('your_collection_name').get();
       const fetchedData = dataRef.docs.map((doc) => {
         return {
-          id: doc.id, // Include document ID
+          id: doc.id,
           ...doc.data(),
         };
       });
@@ -40,7 +45,13 @@ const Index = () => {
       setShowSpinner(false);
     }
   };
+  const openModal2 = () => {
+    setIsModalOpen2(true);
+  };
 
+  const closeModal2 = () => {
+    setIsModalOpen2(false);
+  };
   const openModal = (docId = null) => {
     setIsModalOpen(true);
     const editData = tableData.find((data) => data.id === docId);
@@ -118,44 +129,15 @@ const Index = () => {
 
   const years = Array.from({ length: new Date().getFullYear() - 1999 }, (_, index) => 2000 + index);
 
+  // Pagination Logic
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentItems = tableData.slice(indexOfFirstItem, indexOfLastItem);
+
+  const paginate = (pageNumber) => setCurrentPage(pageNumber);
+
   const renderTableData = () => {
-    // Filter tableData based on selectedMonth and selectedYear
-    let filteredData = tableData;
-    if (selectedMonth !== null) {
-      filteredData = filteredData.filter((data) => {
-        const date = new Date(data.selectedDate);
-        return date.getMonth() + 1 === selectedMonth;
-      });
-    }
-    if (selectedYear !== null) {
-      filteredData = filteredData.filter((data) => {
-        const date = new Date(data.selectedDate);
-        return date.getFullYear() === selectedYear;
-      });
-    }
-
-    // Sort filteredData by selectedDate in descending order
-    const sortedTableData = [...filteredData].sort((a, b) => {
-      return new Date(b.selectedDate) - new Date(a.selectedDate);
-    });
-
-    // Calculate sum for each digit and their individual sums
-    const digitSums = Array.from({ length: 8 }, () => 0); // Initialize array with 0s
-    const individualSums = Array.from({ length: 8 }, () => 0); // Initialize array with 0s
-
-    sortedTableData.forEach((data) => {
-      const rowNumbers = data.numbers || [];
-      rowNumbers.forEach((num, idx) => {
-        if (!isNaN(num)) {
-          const digitSum = num.split('').reduce((acc, curr) => acc + parseInt(curr), 0);
-          individualSums[idx] += digitSum; // Add individual digit sum to the array
-          digitSums[idx] += parseInt(num) || 0; // Add number to sum if it's a valid number
-        }
-      });
-    });
-
-    // Render table rows
-    const tableRows = sortedTableData.map((data) => {
+    return currentItems.map((data) => {
       const rowNumbers = data.numbers || [];
       const paddedNumbers = Array.from({ length: 8 }, (_, i) => rowNumbers[i] || '-');
       const formattedDate = data.selectedDate
@@ -173,7 +155,7 @@ const Index = () => {
             let rightMostDigitSum = '-';
             if (!isNaN(num)) {
               const digitSum = num.split('').reduce((acc, curr) => acc + parseInt(curr), 0);
-              rightMostDigitSum = digitSum % 10; // Get only the rightmost digit
+              rightMostDigitSum = digitSum % 10;
             }
             return (
               <td key={idx} className='border text-center px-4 py-2'>
@@ -190,16 +172,12 @@ const Index = () => {
         </tr>
       );
     });
-
-    // Render sum row
-    const sumRow = (
-      <tr key="sum" className="bg-gray-300">
-      
-      </tr>
-    );
-
-    return [...tableRows, sumRow]; // Concatenate table rows and sum row
   };
+
+  const pageNumbers = [];
+  for (let i = 1; i <= Math.ceil(tableData.length / itemsPerPage); i++) {
+    pageNumbers.push(i);
+  }
 
   return (
     <div className='bg-gray-100 min-h-screen p-8'>
@@ -231,12 +209,57 @@ const Index = () => {
         </div>
       </div>
 
+      <div className="flex justify-end">
+        <Link href='/Admin/contactdetails' >
+        <button
+          className='bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded mt-4 mr-4'
+         
+        >
+          Add & Update Contact & Qr code Details
+        </button>
+        </Link>
+      </div>
+
       <button
         className='bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded mt-4'
         onClick={openModal}
       >
         Add Number
       </button>
+
+
+      {isModalOpen2 && (
+        <div className='fixed top-0 left-0 w-full h-full bg-gray-900 bg-opacity-50 flex items-center justify-center'>
+          <div className='bg-white p-8 rounded shadow-md w-full md:w-1/2'>
+            <h2 className='text-lg font-semibold mb-4'>Add & Update Contact details and payment qr</h2>
+            <div className='flex flex-col space-y-4'>
+            
+            
+
+            
+
+              <div className='flex justify-between'>
+                <button
+                  onClick={closeModal2}
+                  className='bg-gray-500 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded'
+                >
+                  Cancel
+                </button>
+                  <button
+                    className={`bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded ${
+                      isLoading ? 'opacity-50 cursor-not-allowed' : ''
+                    }`}
+                    onClick={handleUpdate}
+                    disabled={isLoading}
+                  >
+                    {isLoading ? 'Updating...' : 'Update'}
+                  </button>
+               \
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
 
       {isModalOpen && (
         <div className='fixed top-0 left-0 w-full h-full bg-gray-900 bg-opacity-50 flex items-center justify-center'>
@@ -326,6 +349,15 @@ const Index = () => {
             </thead>
             <tbody>{renderTableData()}</tbody>
           </table>
+        </div>
+        <div className="mt-4">
+          <ul className="flex justify-center">
+            {pageNumbers.map((number) => (
+              <li key={number} className={`mx-1 px-3 py-1 cursor-pointer ${currentPage === number ? 'bg-blue-500 text-white' : 'bg-gray-300 text-black'}`} onClick={() => paginate(number)}>
+                {number}
+              </li>
+            ))}
+          </ul>
         </div>
       </div>
 

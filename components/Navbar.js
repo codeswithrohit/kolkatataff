@@ -30,7 +30,7 @@ const Navbar = () => {
             APP
         </span>
     </button>
-    <Link href='/oldresult' >
+    <Link href='/fullchart' >
     <button class="inline-flex items-center h-10 px-2 py-2 -mb-px text-center hover:text-red-400 text-black bg-transparent border-b-2 border-black sm:px-4 -px-1 dark:border-black dark:text-black whitespace-nowrap focus:outline-none">
         
         <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 mx-1 sm:w-6 sm:h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">

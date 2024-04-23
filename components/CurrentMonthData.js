@@ -48,22 +48,22 @@ const CurrentMonthData = ({ tableData }) => {
 
       return (
         <tr key={data.id} className={data.id % 2 === 0 ? 'bg-gray-200 text-white' : 'bg-gray-500 text-white'}>
-          <td className='bg-white text-red-400 font-bold px-4 py-2'>{formattedDate}</td>
-          {paddedNumbers.map((num, idx) => {
-            let rightMostDigitSum = '-';
-            if (!isNaN(num)) {
-              const digitSum = num.split('').reduce((acc, curr) => acc + parseInt(curr), 0);
-              rightMostDigitSum = digitSum % 10; // Get only the rightmost digit
-            }
-            return (
-              <td key={idx} className='border text-center px-12 py-2'>
-                {num}
-                <hr className="my-1 border-t border-black" />
-                {rightMostDigitSum}
-              </td>
-            );
-          })}
-        </tr>
+        <td className=' font-bold bg-white text-red-400 border border-t border-black text-center py-2'>{formattedDate}</td>
+        {paddedNumbers.map((num, idx) => {
+          let rightMostDigitSum = '-';
+          if (!isNaN(num)) {
+            const digitSum = num.split('').reduce((acc, curr) => acc + parseInt(curr), 0);
+            rightMostDigitSum = digitSum % 10; // Get only the rightmost digit
+          }
+          return (
+            <td key={idx} className='border text-xs text-center py-2'> {/* Removed px-12 */}
+              {num}
+              <hr className="my-1 border-t border-black" />
+              {rightMostDigitSum}
+            </td>
+          );
+        })}
+      </tr>
       );
     });
 
