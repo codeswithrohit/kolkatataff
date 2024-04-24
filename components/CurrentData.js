@@ -41,8 +41,8 @@ const CurrentData = ({ tableData }) => {
         : '-';
 
       return (
-        <tr key={data.id} className={data.id % 2 === 0 ? 'bg-gray-200 text-white' : 'bg-gray-500 text-white'}>
-          <td className=' font-bold bg-white text-red-400 text-center py-2'>{formattedDate}</td>
+        <tr key={data.id} className={data.id % 2 === 0 ? 'bg-red-400 font-bold text-white' : 'bg-red-400 font-bold text-white'}>
+          <td className=' font-bold bg-white text-red-400 text-xs text-center py-2 w-36 md:w-36'>{formattedDate}</td>
           {paddedNumbers.map((num, idx) => {
             let rightMostDigitSum = '-';
             if (!isNaN(num)) {
@@ -50,7 +50,7 @@ const CurrentData = ({ tableData }) => {
               rightMostDigitSum = digitSum % 10; // Get only the rightmost digit
             }
             return (
-              <td key={idx} className='border text-xs text-center py-2'> {/* Removed px-12 */}
+              <td key={idx} className='border text-xs font-bold text-center py-2 w-36'> {/* Removed px-12 */}
                 {num}
                 <hr className="my-1 border-t border-black" />
                 {rightMostDigitSum}

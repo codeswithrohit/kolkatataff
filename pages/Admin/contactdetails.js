@@ -12,6 +12,7 @@ const Index = () => {
   const [isModalOpen2, setIsModalOpen2] = useState(false);
   const [mobileNumber, setMobileNumber] = useState('');
   const [whatsappNumber, setWhatsappNumber] = useState('');
+  const [text, setText] = useState('');
   const [qrCode, setQrCode] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [contactData, setContactData] = useState([]);
@@ -46,6 +47,7 @@ const Index = () => {
   const closeModal2 = () => {
     setIsModalOpen2(false);
     setMobileNumber('');
+    setText('');
     setWhatsappNumber('');
     setQrCode(null);
     setEditContactId(null); // Reset edit state
@@ -56,6 +58,7 @@ const Index = () => {
     if (contactToEdit) {
       setEditContactId(contactId);
       setMobileNumber(contactToEdit.mobileNumber);
+      setText(contactToEdit.text);
       setWhatsappNumber(contactToEdit.whatsappNumber);
       // QR code URL can't be edited directly, so no need to set it here
       setIsModalOpen2(true);
@@ -73,34 +76,41 @@ const Index = () => {
       toast.error('Please fill in all fields.');
       return;
     }
-
+  
     setIsLoading(true);
     try {
       if (editContactId) {
         // If editing existing contact, update in Firestore
-        const qrCodeRef = storage.ref().child(`qr_codes/${qrCode.name}`);
-        const qrCodeSnapshot = await qrCodeRef.put(qrCode);
-        const qrCodeUrl = await qrCodeSnapshot.ref.getDownloadURL();
+        let qrCodeUrl = null;
+        if (qrCode) {
+          // If a new QR code is selected, upload it
+          const qrCodeRef = storage.ref().child(`qr_codes/${qrCode.name}`);
+          const qrCodeSnapshot = await qrCodeRef.put(qrCode);
+          qrCodeUrl = await qrCodeSnapshot.ref.getDownloadURL();
+        }
+  
         await db.collection('contact_details').doc(editContactId).update({
           mobileNumber,
           whatsappNumber,
-          qrCodeUrl,
+          qrCodeUrl: qrCodeUrl || qrCodeUrl === '' ? qrCodeUrl : contactData.find(contact => contact.id === editContactId).qrCodeUrl,
+          text,
           updatedAt: firebase.firestore.FieldValue.serverTimestamp(),
         });
         toast.success('Contact details updated successfully!');
       } else {
-        // If adding new contact, upload QR code and add to Firestore
-        if (!qrCode) {
-          toast.error('Please upload a QR code.');
-          return;
+        // If adding new contact, upload QR code only if provided
+        let qrCodeUrl = null;
+        if (qrCode) {
+          const qrCodeRef = storage.ref().child(`qr_codes/${qrCode.name}`);
+          const qrCodeSnapshot = await qrCodeRef.put(qrCode);
+          qrCodeUrl = await qrCodeSnapshot.ref.getDownloadURL();
         }
-        const qrCodeRef = storage.ref().child(`qr_codes/${qrCode.name}`);
-        const qrCodeSnapshot = await qrCodeRef.put(qrCode);
-        const qrCodeUrl = await qrCodeSnapshot.ref.getDownloadURL();
+  
         await db.collection('contact_details').add({
           mobileNumber,
           whatsappNumber,
           qrCodeUrl,
+          text,
           createdAt: firebase.firestore.FieldValue.serverTimestamp(),
         });
         toast.success('Contact details added successfully!');
@@ -114,9 +124,10 @@ const Index = () => {
       setIsLoading(false);
     }
   };
+  
 
   return (
-    <div className="bg-gray-100 min-h-screen p-8">
+    <div className=" min-h-screen p-8">
       <div className="flex justify-end">
         {contactData.length === 0 && (
           <button
@@ -155,6 +166,22 @@ const Index = () => {
                 onChange={(e) => setWhatsappNumber(e.target.value)}
                 className="border rounded-md py-2 px-3 focus:outline-none focus:ring focus:border-blue-300"
               />
+             
+<div className="mb-4">
+  <label htmlFor="description" className="block text-gray-700 text-sm font-bold mb-2">
+    Description
+  </label>
+  <textarea
+    id="description"
+    name="description"
+    value={text}
+    onChange={(e) => setText(e.target.value)}
+    rows="3"
+    placeholder="Enter Fatafat description..."
+    className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+  ></textarea>
+</div>
+
               <label className="block">
                 <span className="text-gray-700">Upload QR Code:</span>
                 <input
@@ -193,6 +220,7 @@ const Index = () => {
           <div key={contact.id} className="border rounded-md p-4 mb-4">
             <p className="mt-2">Mobile Number: {contact.mobileNumber}</p>
             <p>WhatsApp Number: {contact.whatsappNumber}</p>
+            <p>Fatafat Desc.: {contact.text}</p>
             {contact.qrCodeUrl && (
               <div className="mt-4">
                 <img

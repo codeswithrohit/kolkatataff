@@ -117,11 +117,11 @@ const Index = () => {
         </div>
         <div className="bg-gradient-to-r from-red-300 to-green-500 py-2 text-white text-center">
           <div className="flex items-center justify-center">
-            <FaBell className="text-sm md:text-xl text-red-500 mr-2" />
-            <h1 class="animate-text bg-gradient-to-r from-teal-500 via-purple-500 to-orange-500 bg-clip-text text-transparent text-2xl font-black">
+            <FaBell className="text-md md:text-2xl text-red-500 mr-2" />
+            <h1 class="animate-text bg-gradient-to-r from-teal-500 via-purple-500 to-orange-500 bg-clip-text text-transparent text-4xl font-black">
               LIVE RESULT
             </h1>
-            <FaBell className="text-sm md:text-xl text-red-500 ml-2" />
+            <FaBell className="text-md md:text-2xl text-red-500 ml-2" />
           </div>
         </div>
 
@@ -170,19 +170,13 @@ const Index = () => {
           <h1 className="text-2xl font-bold mb-2">KOLKATA FATAFAT TIPS & WIN</h1>
         </div>
         <div class="py-4 px-4 mx-auto sm:py-8 lg:px-6 bg-green-50 mt-2">
-          <div class="mx-auto max-w-screen-sm text-center">
+        {contactData.map((contact) => (
+          <div  key={contact.id} class="mx-auto max-w-screen-sm text-center">
             <h2 class="mb-1 text-3xl tracking-tight font-bold leading-tight text-green-800">KOLKATA FF FATAFAT TIPS</h2>
             <p className="text-green-700 md:text-lg font-bold">Date: {currentDate}</p>
-            <p class=" text-green-700 md:text-md font-bold">Kolkata Fatafat</p>
-            <p class=" text-green-700 md:text-md font-bold">Wellcome To Bengali Brothers</p>
-            <p class=" text-green-700 md:text-md font-bold">Direct Head Office Leak</p>
-            <p class=" text-green-700 md:text-md font-bold">30 Minute Pahle Live Result Paye</p>
-            <p class=" text-green-700 md:text-md font-bold">(Single Ghar/Patti Number)</p>
-            <p class=" text-green-700 md:text-md font-bold">Booking Only 2150rs Taka</p>
-            <p class=" text-green-700 md:text-md font-bold">Advance Payment</p>
-            <p class=" text-green-700 md:text-md font-bold">Booking For Call</p>
-            {contactData.map((contact) => (
-            <div key={contact.id} className="flex flex-row items-center justify-center mt-2">
+            <p class=" text-green-700 md:text-md font-bold whitespace-pre-line">{contact.text}</p>
+          
+            <div className="flex flex-row items-center justify-center mt-2">
             <button
               onClick={() => handleCall(contact.mobileNumber)}
               className="inline-flex items-center justify-center px-5 py-3 mr-3 text-base font-medium text-center text-white rounded-lg bg-red-600 hover:bg-red-700 focus:ring-4 focus:ring-blue-500"
@@ -198,8 +192,9 @@ const Index = () => {
               WhatsApp
             </button>
           </div>
-            ))}
+          
           </div>
+            ))}
         </div>
         <div className="text-center text-red-400">
           <h1 className="text-2xl font-bold mb-2">KOLKATA FF THIS MONTH RECORD</h1>

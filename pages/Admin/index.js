@@ -132,11 +132,28 @@ const Index = () => {
   // Pagination Logic
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentItems = tableData.slice(indexOfFirstItem, indexOfLastItem);
+  const sortedTableData = [...tableData].sort((a, b) => {
+    return new Date(b.selectedDate) - new Date(a.selectedDate);
+  });
+  const currentItems = sortedTableData.slice(indexOfFirstItem, indexOfLastItem);
 
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
   const renderTableData = () => {
+    const handleDelete = async (docId) => {
+      if (window.confirm('Are you sure you want to delete this item?')) {
+        try {
+          await db.collection('your_collection_name').doc(docId).delete();
+          toast.success('Data deleted successfully!');
+          window.location.reload();
+          fetchData(); // Refetch data after deletion
+        } catch (error) {
+          console.error('Error deleting document: ', error);
+          toast.error('Failed to delete data.');
+        }
+      }
+    };
+
     return currentItems.map((data) => {
       const rowNumbers = data.numbers || [];
       const paddedNumbers = Array.from({ length: 8 }, (_, i) => rowNumbers[i] || '-');
@@ -166,9 +183,21 @@ const Index = () => {
             );
           })}
 
-          <td className='border px-4 py-2'>
-            <button className="text-blue-500" onClick={() => openModal(data.id)}>Edit</button>
-          </td>
+<td className='border px-4 py-2'>
+  <button
+    className="inline-block px-3 py-1 mr-2 leading-none text-white bg-blue-500 rounded-lg hover:bg-blue-600"
+    onClick={() => openModal(data.id)}
+  >
+    Edit
+  </button>
+  <button
+    className="inline-block px-3 py-1 leading-none text-white bg-red-500 rounded-lg hover:bg-red-600"
+    onClick={() => handleDelete(data.id)}
+  >
+    Delete
+  </button>
+</td>
+
         </tr>
       );
     });
@@ -335,10 +364,10 @@ const Index = () => {
       )}
 
       <div className='mt-8'>
-        <h2 className='text-lg font-semibold mb-4'>Table Data</h2>
+        <h2 className='text-lg text-black font-semibold mb-4'>Table Data</h2>
         <div className='overflow-x-auto'>
           <table className='table-auto w-full'>
-            <thead>
+            <thead className='bg-gray-800 text-white' >
               <tr>
                 <th className='px-4 py-2 border'>Date</th>
                 <th colSpan={8} className='px-4 py-2 border text-center'>
