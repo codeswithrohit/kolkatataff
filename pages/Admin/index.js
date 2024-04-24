@@ -7,7 +7,7 @@ import MonthPicker from '../../components/MonthPicker';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import Link from 'next/link';
-
+import AdminNavbar from '../../components/AdminNavbar';
 const db = firebase.firestore();
 
 const Index = () => {
@@ -209,7 +209,9 @@ const Index = () => {
   }
 
   return (
-    <div className='bg-gray-100 min-h-screen p-8'>
+    <div className='min-h-screen' >
+      <AdminNavbar/>
+    <div className=' lg:ml-64 bg-gray-100  p-8'>
       <div className="flex items-center space-x-4">
         <div>
           <label htmlFor="monthPicker" className="text-sm font-medium text-gray-700">
@@ -238,23 +240,15 @@ const Index = () => {
         </div>
       </div>
 
-      <div className="flex justify-end">
-        <Link href='/Admin/contactdetails' >
-        <button
-          className='bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded mt-4 mr-4'
-         
-        >
-          Add & Update Contact & Qr code Details
-        </button>
-        </Link>
-      </div>
+    
 
       <button
-        className='bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded mt-4'
-        onClick={openModal}
-      >
-        Add Number
-      </button>
+  className='bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded mt-4 absolute top-0 right-0 mr-4 mt-4'
+  onClick={openModal}
+>
+  Add Data
+</button>
+
 
 
       {isModalOpen2 && (
@@ -391,12 +385,19 @@ const Index = () => {
       </div>
 
       {showSpinner && (
-        <div className='fixed top-0 left-0 w-full h-full bg-gray-900 bg-opacity-50 flex items-center justify-center'>
-          <div className='text-white'>Loading...</div>
-        </div>
+        <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-white">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" className="w-12 h-12 animate-spin"
+          viewBox="0 0 16 16">
+          <path
+            d="M11.534 7h3.932a.25.25 0 0 1 .192.41l-1.966 2.36a.25.25 0 0 1-.384 0l-1.966-2.36a.25.25 0 0 1 .192-.41zm-11 2h3.932a.25.25 0 0 0 .192-.41L2.692 6.23a.25.25 0 0 0-.384 0L.342 8.59A.25.25 0 0 0 .534 9z" />
+          <path fill-rule="evenodd"
+            d="M8 3c-1.552 0-2.94.707-3.857 1.818a.5.5 0 1 1-.771-.636A6.002 6.002 0 0 1 13.917 7H12.9A5.002 5.002 0 0 0 8 3zM3.1 9a5.002 5.002 0 0 0 8.757 2.182.5.5 0 1 1 .771.636A6.002 6.002 0 0 1 2.083 9H3.1z" />
+        </svg>
+      </div>
       )}
 
       <ToastContainer />
+    </div>
     </div>
   );
 };

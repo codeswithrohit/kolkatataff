@@ -7,12 +7,12 @@ import "firebase/compat/storage";
 const firebaseConfig = {
     //Paste Your firebase config here
    
-    apiKey: "AIzaSyAcR30FwnoBOM1HXF9nPZV_gT5hcnaMo5U",
-    authDomain: "sattamatka143mobi-596ed.firebaseapp.com",
-    projectId: "sattamatka143mobi-596ed",
-    storageBucket: "sattamatka143mobi-596ed.appspot.com",
-    messagingSenderId: "931914547888",
-    appId: "1:931914547888:web:bfc96b779e09c56ae6f175"
+    apiKey: "AIzaSyB_lpYkL9EryBNF6jUqW984IFWJlB3YFxw",
+    authDomain: "kokataffes.firebaseapp.com",
+    projectId: "kokataffes",
+    storageBucket: "kokataffes.appspot.com",
+    messagingSenderId: "778361386398",
+    appId: "1:778361386398:web:34513f059631c8dda7128f"
     
 };
 

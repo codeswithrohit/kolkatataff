@@ -10,6 +10,7 @@ const db = firebase.firestore();
 
 const Index = () => {
   const [tableData, setTableData] = useState([]);
+  const [timeData, setTimeData] = useState([]);
   const [showSpinner, setShowSpinner] = useState(false);
   const [currentDate, setCurrentDate] = useState('');
   const [isLoading, setIsLoading] = useState(false);
@@ -32,6 +33,24 @@ const Index = () => {
     }
   };
 
+  const fetchtimetableData = async () => {
+    try {
+      setShowSpinner(true);
+      const dataRef = await db.collection('time_table').get();
+      const fetchedData = dataRef.docs.map((doc) => {
+        return {
+          id: doc.id,
+          ...doc.data(),
+        };
+      });
+      setTimeData(fetchedData);
+    } catch (error) {
+      console.error('Error fetching data: ', error);
+    } finally {
+      setShowSpinner(false);
+    }
+  };
+
   useEffect(() => {
     // Function to get the current date in "DD/MM/YYYY" format
     const getCurrentDate = () => {
@@ -48,6 +67,7 @@ const Index = () => {
   useEffect(() => {
     fetchData();
     fetchContactData();
+    fetchtimetableData();
   }, []);
 
   const fetchData = async () => {
@@ -248,71 +268,20 @@ const Index = () => {
             </tr>
           </thead>
           <tbody className="divide-y divide-gray-800">
-            <tr>
-              <td className="px-6 py-4 font-bold whitespace-nowrap text-sm text-gray-600">
-              1st Bazi
-              </td>
-              <td className="px-6 py-4 font-bold whitespace-nowrap text-sm text-gray-600">
-                10:00 🕙
-              </td>
-            </tr>
-            <tr>
-              <td className="px-6 py-4 font-bold whitespace-nowrap text-sm text-gray-600">
-                2nd Bazi
-              </td>
-              <td className="px-6 py-4 font-bold whitespace-nowrap text-sm text-gray-600">
-                11:30 🕙
-              </td>
-            </tr>
-            <tr>
-              <td className="px-6 py-4 font-bold whitespace-nowrap text-sm text-gray-600">
-                3rd Bazi
-              </td>
-              <td className="px-6 py-4 font-bold whitespace-nowrap text-sm text-gray-600">
-                1:00 🕙
-              </td>
-            </tr>
-            <tr>
-              <td className="px-6 py-4 font-bold whitespace-nowrap text-sm text-gray-600">
-                4th Bazi
-              </td>
-              <td className="px-6 py-4 font-bold whitespace-nowrap text-sm text-gray-600">
-                2:30 🕙
-              </td>
-            </tr>
-            <tr>
-              <td className="px-6 py-4 font-bold whitespace-nowrap text-sm text-gray-600">
-                5th Bazi
-              </td>
-              <td className="px-6 py-4 font-bold whitespace-nowrap text-sm text-gray-600">
-                4:00 🕙
-              </td>
-            </tr>
-            <tr>
-              <td className="px-6 py-4 font-bold whitespace-nowrap text-sm text-gray-600">
-                6th Bazi
-              </td>
-              <td className="px-6 py-4 font-bold whitespace-nowrap text-sm text-gray-600">
-                5:30 🕙
-              </td>
-            </tr>
-            <tr>
-              <td className="px-6 py-4 font-bold whitespace-nowrap text-sm text-gray-600">
-                7th Bazi
-              </td>
-              <td className="px-6 py-4 font-bold whitespace-nowrap text-sm text-gray-600">
-                7:00 🕙
-              </td>
-            </tr>
-            <tr>
-              <td className="px-6 py-4 font-bold whitespace-nowrap text-sm text-gray-600">
-                8th Bazi
-              </td>
-              <td className="px-6 py-4 font-bold whitespace-nowrap text-sm text-gray-600">
-                8:30 🕙
-              </td>
-            </tr>
-          </tbody>
+  {timeData.map((data, index) => (
+    data.numbers.map((time, timeIndex) => (
+      <tr key={`${data.id}-${timeIndex}`} className="hover:bg-gray-50 transition-colors">
+        <td className="px-6 py-4 font-bold whitespace-nowrap text-sm text-gray-600">
+          {timeIndex + 1} Bazi
+        </td>
+        <td className="px-6 py-4 font-bold whitespace-nowrap text-sm text-gray-600">
+          {time} 🕙
+        </td>
+       
+      </tr>
+    ))
+  ))}
+</tbody>
         </table>
       </div>
     </div>

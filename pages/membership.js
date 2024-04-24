@@ -32,11 +32,8 @@ export default function Sample3() {
       }
     };
     const [formData, setFormData] = useState({
-      firstName: '',
-      lastName: '',
-      email: '',
+      name: '',
       phone: '',
-      password: '',
     });
   
     const openModal = () => {
@@ -59,7 +56,7 @@ export default function Sample3() {
       setLoading(true);
       try {
         // Validate form fields (you can add more validation as needed)
-        if (!formData.firstName || !formData.lastName || !formData.email || !formData.phone || !formData.password) {
+        if (!formData.name || !formData.phone) {
           toast.error('Please fill in all fields.');
           setLoading(false);
           return;
@@ -67,11 +64,8 @@ export default function Sample3() {
   
         // Add data to Firestore
         await db.collection('users').add({
-          firstName: formData.firstName,
-          lastName: formData.lastName,
-          email: formData.email,
+          Name: formData.name,
           phone: formData.phone,
-          password: formData.password,
           createdAt: firebase.firestore.FieldValue.serverTimestamp(),
         });
   
@@ -135,44 +129,20 @@ export default function Sample3() {
               </h1>
               <div className="w-full mt-8">
                 <div className="mx-auto max-w-xs sm:max-w-md md:max-w-lg flex flex-col gap-4">
-                  <div className="flex flex-col sm:flex-row gap-3">
-                    <input
-                      className={`w-full px-5 py-3 rounded-lg font-medium border-2 border-transparent placeholder-gray-500 text-sm focus:outline-none  focus:border-2  focus:outline ${
-                        darkMode
-                          ? 'bg-[#302E30] text-white focus:border-white'
-                          : 'bg-gray-100 text-black focus:border-black'
-                      }`}
-                      type="text"
-                      placeholder="Your first name"
-                      name="firstName"
-                      value={formData.firstName}
-                      onChange={handleInputChange}
-                    />
-                    <input
-                      className={`w-full px-5 py-3 rounded-lg  font-medium border-2 border-transparent placeholder-gray-500 text-sm focus:outline-none focus:border-2  focus:outline ${
-                        darkMode
-                          ? 'bg-[#302E30] text-white focus:border-white'
-                          : 'bg-gray-100 text-black focus:border-black'
-                      }`}
-                      type="text"
-                      placeholder="Your last name"
-                      name="lastName"
-                      value={formData.lastName}
-                      onChange={handleInputChange}
-                    />
-                  </div>
+                  
                   <input
                     className={`w-full px-5 py-3 rounded-lg  font-medium border-2 border-transparent placeholder-gray-500 text-sm focus:outline-none focus:border-2  focus:outline ${
                       darkMode
                         ? 'bg-[#302E30] text-white focus:border-white'
                         : 'bg-gray-100 text-black focus:border-black'
                     }`}
-                    type="email"
-                    placeholder="Enter your email"
-                    name="email"
-                    value={formData.email}
+                    type="text"
+                    placeholder="Enter your name"
+                    name="name"
+                    value={formData.name}
                     onChange={handleInputChange}
                   />
+                 
                   <input
                     className={`w-full px-5 py-3 rounded-lg  font-medium border-2 border-transparent placeholder-gray-500 text-sm focus:outline-none focus:border-2  focus:outline ${
                       darkMode
@@ -185,18 +155,7 @@ export default function Sample3() {
                     value={formData.phone}
                     onChange={handleInputChange}
                   />
-                  <input
-                    className={`w-full px-5 py-3 rounded-lg  font-medium border-2 border-transparent placeholder-gray-500 text-sm focus:outline-none focus:border-2  focus:outline ${
-                      darkMode
-                        ? 'bg-[#302E30] text-white focus:border-white'
-                        : 'bg-gray-100 text-black focus:border-black'
-                    }`}
-                    type="password"
-                    placeholder="Password"
-                    name="password"
-                    value={formData.password}
-                    onChange={handleInputChange}
-                  />
+                 
                   <button
                     className="mt-5 tracking-wide font-semibold bg-[#E9522C] text-gray-100 w-full py-4 rounded-lg hover:bg-[#E9522C]/90 transition-all duration-300 ease-in-out flex items-center justify-center focus:shadow-outline focus:outline-none"
                     onClick={handleRegistration}
