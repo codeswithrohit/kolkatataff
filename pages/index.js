@@ -16,6 +16,7 @@ const Index = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [contactData, setContactData] = useState([]);
 
+  const [isRefreshing, setIsRefreshing] = useState(false);
   const fetchContactData = async () => {
     try {
       setIsLoading(true);
@@ -96,8 +97,18 @@ const Index = () => {
     setShowFullText(!showFullText);
   };
 
+
   const handleRefresh = () => {
-    fetchData(); // Call fetchData to refresh data
+    // Set isRefreshing to true to indicate that the refresh action is in progress
+    setIsRefreshing(true);
+
+    // Simulate the refresh action by setting a timeout
+    setTimeout(() => {
+      // After a short delay, reset isRefreshing to false to indicate that the refresh action is complete
+      setIsRefreshing(false);
+    }, 100); // Change the delay to visually indicate the refresh process
+
+    // You can perform any other refresh-related tasks here
   };
 
   const handleCall = (number) => {
@@ -112,18 +123,9 @@ const Index = () => {
 
   return (
     <div className='bg-[#c4fd16] min-h-screen'>
-      {showSpinner && (
-        <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-white">
-          <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" className="w-12 h-12 animate-spin"
-            viewBox="0 0 16 16">
-            <path
-              d="M11.534 7h3.932a.25.25 0 0 1 .192.41l-1.966 2.36a.25.25 0 0 1-.384 0l-1.966-2.36a.25.25 0 0 1 .192-.41zm-11 2h3.932a.25.25 0 0 0 .192-.41L2.692 6.23a.25.25 0 0 0-.384 0L.342 8.59A.25.25 0 0 0 .534 9z" />
-            <path fill-rule="evenodd"
-              d="M8 3c-1.552 0-2.94.707-3.857 1.818a.5.5 0 1 1-.771-.636A6.002 6.002 0 0 1 13.917 7H12.9A5.002 5.002 0 0 0 8 3zM3.1 9a5.002 5.002 0 0 0 8.757 2.182.5.5 0 1 1 .771.636A6.002 6.002 0 0 1 2.083 9H3.1z" />
-          </svg>
-        </div>
-      )}
-      <><div className="bg-white  text-red-400">
+     
+      <>
+      <div className="bg-white  text-red-400">
         <div className="text-center text-red-400">
           <h1 className="text-2xl font-bold mb-2">KOLKATAFF.ES</h1>
         </div>
@@ -149,16 +151,16 @@ const Index = () => {
 
 
         <div className="bg-gradient-to-r from-red-300 to-green-500 py-2 text-white text-center">
-          <div   onClick={handleRefresh}  className="flex items-center cursor-pointer justify-center">
-            <button
-              className="flex items-center justify-center bg-white text-red-500 rounded-full w-8 h-8 focus:outline-none hover:bg-red-500 hover:text-white transition duration-300 mr-2"
-            // Call handleRefresh on click
-            >
-              <FaSync size={16} />
-            </button>
-            <span className="text-white">Refresh</span>
-          </div>
-        </div>
+      <div onClick={handleRefresh} className="flex items-center cursor-pointer justify-center">
+        <button
+          className={`flex items-center justify-center bg-white text-red-500 rounded-full w-8 h-8 focus:outline-none hover:bg-red-500 hover:text-white transition duration-300 mr-2 ${isRefreshing ? 'animate-spin' : ''}`}
+          disabled={isRefreshing}
+        >
+          <FaSync size={16} />
+        </button>
+        <span className="text-white">Refresh</span>
+      </div>
+    </div>
 
         {/* <div className="bg-gradient-to-r from-gray-800 to-black text-white p-4">
 

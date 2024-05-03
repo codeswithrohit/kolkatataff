@@ -1,9 +1,20 @@
 import React, { useState } from "react";
 import { FiHome, FiGrid } from "react-icons/fi";
-
+import { firebase } from '../Firebase/config';
+import { useRouter } from 'next/router';
 export default function Index() {
+  const router = useRouter();
   const [show, setShow] = useState(true);
-
+  const handleLogout = () => {
+    firebase.auth().signOut().then(() => {
+      // Sign-out successful.
+      router.push('Admin/adminlogin'); // Redirect to login page
+    }).catch((error) => {
+      // An error happened.
+      console.error('Logout Error:', error);
+      toast.error('Failed to logout. Please try again.');
+    });
+  };
   return (
     <div>
       <div className="bg-indigo-700 rounded-r shadow xl:hidden flex justify-between w-full p-6 items-center border-b border-transparent sm:border-gray-200 ">
@@ -18,7 +29,7 @@ export default function Index() {
             className={`${show ? "" : "hidden"} focus:outline-none focus:ring-2 `}
           >
             <svg
-              className="text-indigo-200"
+              className="text-white"
               width={24}
               height={24}
               viewBox="0 0 24 24"
@@ -55,7 +66,7 @@ export default function Index() {
             className={`${show ? "hidden" : ""} focus:outline-none focus:ring-2  `}
           >
             <svg
-              className="text-indigo-200"
+              className="text-white"
               width={24}
               height={24}
               viewBox="0 0 24 24"
@@ -158,6 +169,16 @@ export default function Index() {
                   </span>
                   <span class="ml-2 text-sm tracking-wide truncate">User Data</span>
                 </a>
+              </li>
+              <li>
+                <button  onClick={handleLogout}
+                  class="relative flex flex-row items-center h-11 focus:outline-none hover:bg-gray-50 text-gray-600 hover:text-gray-800 border-l-4 border-transparent hover:border-indigo-500 pr-6"
+                >
+                  <span class="inline-flex justify-center items-center ml-4">
+                    <FiGrid size={20} />
+                  </span>
+                  <span class="ml-2 text-sm tracking-wide truncate">Logout</span>
+                </button>
               </li>
             </ul>
           </div>

@@ -4,14 +4,15 @@ const CurrentMonthData = ({ tableData }) => {
   console.log("tableData", tableData);
 
   const renderTableData = () => {
-    // Filter tableData to only include entries for the current month
+    // Filter tableData to include entries from today to the past 1 month
     const currentDate = new Date();
-    const currentMonth = currentDate.getMonth() + 1; // January is 0
+    const currentMonth = currentDate.getMonth(); // Get current month (0-indexed)
     const currentYear = currentDate.getFullYear();
-    
+    const oneMonthAgo = new Date(currentYear, currentMonth - 1); // Calculate date 1 month ago
+
     const filteredData = tableData.filter(data => {
       const date = new Date(data.selectedDate);
-      return date.getMonth() + 1 === currentMonth && date.getFullYear() === currentYear;
+      return date >= oneMonthAgo && date <= currentDate;
     });
 
     // Sort filteredData by selectedDate in descending order
