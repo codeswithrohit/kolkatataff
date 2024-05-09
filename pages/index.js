@@ -10,6 +10,7 @@ const db = firebase.firestore();
 
 const Index = () => {
   const [tableData, setTableData] = useState([]);
+  const [currentData, setCurrentData] = useState([]);
   const [timeData, setTimeData] = useState([]);
   const [showSpinner, setShowSpinner] = useState(false);
   const [currentDate, setCurrentDate] = useState('');
@@ -82,12 +83,50 @@ const Index = () => {
         };
       });
       setTableData(fetchedData);
+      localStorage.setItem('tableData', JSON.stringify(fetchedData));
     } catch (error) {
       console.error('Error fetching data: ', error);
     } finally {
       setShowSpinner(false);
     }
   };
+  
+
+
+  
+  const fetchDataFromFirebase = async () => {
+    try {
+      setShowSpinner(true);
+      const dataRef = await db.collection('your_collection_name').get();
+      const fetchedData = dataRef.docs.map((doc) => {
+        return {
+          id: doc.id, // Include document ID
+          ...doc.data(),
+        };
+      });
+      // Set tableData state with fetched data
+      setTableData(fetchedData);
+      // Update local storage with fetched data
+      localStorage.setItem('tableData', JSON.stringify(fetchedData));
+    } catch (error) {
+      console.error('Error fetching data:', error);
+    } finally {
+      setShowSpinner(false);
+    }
+  };
+  
+  useEffect(() => {
+    const localData = JSON.parse(localStorage.getItem('tableData'));
+    console.log("datalocal", localData)
+    if (localData) {
+      setTableData(localData);
+      setCurrentData(localData); // Set currentData with localData
+    } else {
+      fetchDataFromFirebase();
+    }
+  }, []);
+
+      
 
   const fullText = `Get Megha Day (Known as Main Mumbai Matka), Kalyan Matka, Kalyan Night Matka Result, Milan Day,Milan Night Matka Result, Rajdhani Day & Rajdhani Night Matka Market Result, Time Bazar Matka Market Result and Indian Matka Market Results Fastest Live Update. Get All Kalyan,Main Kuber, Rajdhani, Milan Matka And Time Bazar Jodi Penal Charts For Free . All Matka Guessing.With Best Guessers , Online Old Charts , Panel Charts, Online Charts List Pdf Download And Top Matka Guessing Free Number Provided By SRV ONLINE MATKA Professor And Master Dr`;
 
@@ -98,18 +137,13 @@ const Index = () => {
   };
 
 
-  const handleRefresh = () => {
-    // Set isRefreshing to true to indicate that the refresh action is in progress
-    setIsRefreshing(true);
-
-    // Simulate the refresh action by setting a timeout
+  const handleRefresh = async () => {
     setTimeout(() => {
-      // After a short delay, reset isRefreshing to false to indicate that the refresh action is complete
-      setIsRefreshing(false);
-    }, 100); // Change the delay to visually indicate the refresh process
-
-    // You can perform any other refresh-related tasks here
+      window.location.reload();
+    }, 0.000001 * 1000); // Converting seconds to milliseconds
   };
+  
+  
 
   const handleCall = (number) => {
     // Call the mobile number
@@ -147,7 +181,7 @@ const Index = () => {
           </div>
         </div>
 
-        <CurrentData tableData={tableData} />
+        <CurrentData  />
 
 
         <div className="bg-gradient-to-r from-red-300 to-green-500 py-2 text-white text-center">

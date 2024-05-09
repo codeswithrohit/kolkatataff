@@ -1,6 +1,35 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
+import { firebase } from '../Firebase/config';
+import 'firebase/firestore';
+import 'firebase/storage';
 import { FaFacebook, FaTwitter, FaWhatsapp } from 'react-icons/fa'
+const db = firebase.firestore();
 const Footer = () => {
+  const [contactData, setContactData] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+  useEffect(() => {
+    fetchContactData();
+  }, []);
+  const fetchContactData = async () => {
+    try {
+      setIsLoading(true);
+      const contactRef = await db.collection('contact_details').get();
+      const fetchedContactData = contactRef.docs.map((doc) => ({
+        id: doc.id,
+        ...doc.data(),
+      }));
+      setContactData(fetchedContactData);
+    } catch (error) {
+      console.error('Error fetching contact details: ', error);
+      toast.error('Failed to fetch contact details.');
+    } finally {
+      setIsLoading(false);
+    }
+  };
+  const handleWhatsApp = (number) => {
+    // Open WhatsApp with the WhatsApp number
+    window.location.href = `https://wa.me/${number}`;
+  };
   return (
     <div>
       {/* <footer class="bg-gray-900 text-gray-300 py-5 sm:px-16 px-6 font-[sans-serif]">
@@ -20,8 +49,11 @@ const Footer = () => {
       
     <footer class="bg-gray-800 text-white py-4 px-2 font-[sans-serif]">
   <div class="flex flex-col items-center">
+    <a href='/Admin' >
     <h1 class="text-xl font-bold mb-4">KOLKATAFF.ES</h1>
-    <ul className="flex space-x-4">
+    </a>
+    {contactData.map((contact) => (
+    <ul key={contact.id} className="flex space-x-4">
   <li>
     <a href="javascript:void(0)" className="text-xl hover:text-blue-400">
       <FaFacebook size={24} />
@@ -33,11 +65,12 @@ const Footer = () => {
     </a>
   </li>
   <li>
-    <a href="javascript:void(0)" className="text-xl hover:text-green-400">
+    <button  onClick={() => handleWhatsApp(contact.whatsappNumber)} className="text-xl hover:text-green-400">
       <FaWhatsapp size={24} />
-    </a>
+    </button>
   </li>
 </ul>
+    ))}
 <h1 class="text-sm font-bold mt-4">© ALL RIGHT RESERVED (2017-2035)</h1>
 <h2 class="text-sm font-semibold">Email: support@KOLKATAFF.ES</h2>
 <h3 class="text-sm font-semibold">KOLKATA FATAFAT GADDI OFFICIAL WEBSITE</h3>
