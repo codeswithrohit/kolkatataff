@@ -138,10 +138,25 @@ const Index = () => {
 
 
   const handleRefresh = async () => {
-    setTimeout(() => {
-      window.location.reload();
-    }, 0.000001 * 1000); // Converting seconds to milliseconds
+    try {
+      setIsRefreshing(true);
+      const dataRef = await db.collection('your_collection_name').get();
+      const fetchedData = dataRef.docs.map((doc) => ({
+        id: doc.id,
+        ...doc.data(),
+      }));
+      setTableData(fetchedData);
+      localStorage.setItem('tableData', JSON.stringify(fetchedData));
+      setTimeout(() => {
+        window.location.reload();
+      }, 1); // 1 millisecond delay
+    } catch (error) {
+      console.error('Error refreshing data:', error);
+    } finally {
+      setIsRefreshing(false);
+    }
   };
+  
   
   
 

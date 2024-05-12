@@ -12,6 +12,23 @@ export default function Sample3() {
     const [loading, setLoading] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
     const [contactData, setContactData] = useState([]);
+
+    const [staticValue, setStaticValue] = useState([]);
+
+    useEffect(() => {
+      const fetchSubscriptions = async () => {
+          try {
+              const db = firebase.firestore();
+              const subscriptionSnapshot = await db.collection('subscription').get();
+              const subscriptionData = subscriptionSnapshot.docs.map(doc => doc.data());
+              setStaticValue(subscriptionData);
+          } catch (error) {
+              console.error('Error fetching subscriptions:', error);
+          }
+      };
+
+      fetchSubscriptions().finally(() => setIsLoading(false)); // Set loading to false after fetching data
+  }, []);
     useEffect(() => {
         fetchContactData();
       }, []);
@@ -96,6 +113,14 @@ export default function Sample3() {
       };
     return (
       <div className='min-h-screen' >
+        {isLoading && (
+             <div class='flex space-x-2 justify-center items-center bg-white h-screen dark:invert'>
+             <span class='sr-only'>Loading...</span>
+              <div class='h-8 w-8 bg-black rounded-full animate-bounce [animation-delay:-0.3s]'></div>
+            <div class='h-8 w-8 bg-black rounded-full animate-bounce [animation-delay:-0.15s]'></div>
+            <div class='h-8 w-8 bg-black rounded-full animate-bounce'></div>
+          </div>
+            )}
          {isModalOpen && (
         <div className="fixed top-0 left-0 w-full h-full bg-gray-800 bg-opacity-50 flex justify-center items-center z-50">
           <div className="flex flex-col justify-center items-center w-full h-[100vh] bg-[#282D2D] px-5">
@@ -240,7 +265,7 @@ export default function Sample3() {
                 className="flex flex-col max-w-[360px] md:w-[384px] min-h-[518px] md:min-h-[572px] p-6 bg-white group rounded-2xl border xl:border-none border-[#0B0641] relative"
               >
                 <div className="flex flex-row gap-5 items-center">
-                  <span>{data.image}</span>
+                  <span><DayPassIcon /></span>
                   <span className="text-3xl font-bold">{data.passType}</span>
                 </div>
                 <span className="flex mt-4 text-[#A9A9AA] text-[22px]">
@@ -371,46 +396,6 @@ export default function Sample3() {
       />
     </svg>
   );
-  const staticValue = [
-    {
-      passType: "VIP Basic Blast Khela",
-      price: "₹2150",
-      image: <DayPassIcon />,
-      duration: "/4 Bazi",
-      static: [
-        "1 Hit 🎯 2 Gaurd Ghar",
-        "1 Hit 🎯 2 Gaurd Patti",
-        "Customers Support Yes",
-        "Refund Policy (No)",
-        "95% Success Khela",
-      ],
-    },
-    {
-      passType: "VIP Standard Khela",
-      price: "₹4500",
-      image: <MonthPassIcon />,
-      duration: "/week",
-      static: [
-        "1 Hit 🎯 1 Gaurd Ghar",
-        "1 Hit 🎯 1 Gaurd Patti",
-        "Customers Support Per Bazi",
-        "Full Refund Guarantee",
-        "98% Success Khela",
-      ],
-    },
-    {
-      passType: "VIP Premium Khela",
-      price: "₹11500",
-      image: <MonthPassIcon />,
-      duration: "/month",
-      static: [
-        "1 Hit 🎯 Ghar",
-        "1 Hit 🎯 Patti",
-        "Customers Support Calling",
-        "100% Secure Investment",
-        "100% Success Khela",
-      ],
-    },
-  ];
+  
   
   
