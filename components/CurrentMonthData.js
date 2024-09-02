@@ -48,23 +48,34 @@ const CurrentMonthData = ({ tableData }) => {
         : '-';
 
       return (
-        <tr key={data.id} className={data.id % 2 === 0 ? 'bg-gray-200 text-white' : 'bg-gray-500 text-white'}>
-        <td className=' font-bold bg-white text-red-400 border border-t border-black font-bold text-center py-2 text-xl w-36 md:w-36'>{formattedDate}</td>
-        {paddedNumbers.map((num, idx) => {
-          let rightMostDigitSum = '-';
-          if (!isNaN(num)) {
-            const digitSum = num.split('').reduce((acc, curr) => acc + parseInt(curr), 0);
-            rightMostDigitSum = digitSum % 10; // Get only the rightmost digit
-          }
-          return (
-            <td key={idx} className='border text-xl font-bold text-center py-2 w-36'> {/* Removed px-12 */}
-              {num}
-              <hr className="my-1 border-t border-black" />
-              {rightMostDigitSum}
-            </td>
-          );
-        })}
-      </tr>
+        <table key={data.id} className='table-auto w-full '>
+                    <thead>
+              <tr>
+                <th colSpan="9" className='font-bold bg-white text-green-900 border border-t border-black font-bold text-center py-2 text-xl w-36 md:w-36'>{formattedDate}</th>
+              </tr>
+            </thead>
+
+        <tbody>
+        <tr  >
+  
+    {paddedNumbers.map((num, idx) => {
+      let rightMostDigitSum = '-';
+      if (!isNaN(num)) {
+        const digitSum = num.split('').reduce((acc, curr) => acc + parseInt(curr), 0);
+        rightMostDigitSum = digitSum % 10; // Get only the rightmost digit
+      }
+      return (
+        <td key={idx} className='border border-t border-red-400 text-xl bg-gradient-to-r from-pink-600 to-green-500 text-white font-bold text-center py-2 w-36'> {/* Removed px-12 */}
+        {num}
+        <hr className="my-1 border-t border-white" />
+        {rightMostDigitSum}
+      </td>
+      
+      );
+    })}
+  </tr>
+        </tbody>
+      </table>
       );
     });
 
@@ -82,10 +93,8 @@ const CurrentMonthData = ({ tableData }) => {
     <div className='bg-gray-500 px-0 py-0'>
       <div className=''>
         <div className='overflow-x-auto'>
-          <table className='table-auto w-full'>
-            <thead></thead>
-            <tbody>{renderTableData()}</tbody>
-          </table>
+        {renderTableData()}
+         
         </div>
       </div>
     </div>

@@ -10,6 +10,14 @@ import Link from 'next/link';
 import AdminNavbar from '../../components/AdminNavbar';
 const db = firebase.firestore();
 import { useRouter } from 'next/router';
+const Spinner = () => (
+  <div class='flex space-x-2 justify-center items-center bg-white h-screen dark:invert'>
+ 	<span class='sr-only'>Loading...</span>
+  	<div class='h-8 w-8 bg-black rounded-full animate-bounce [animation-delay:-0.3s]'></div>
+	<div class='h-8 w-8 bg-black rounded-full animate-bounce [animation-delay:-0.15s]'></div>
+	<div class='h-8 w-8 bg-black rounded-full animate-bounce'></div>
+</div>
+);
 const Index = () => {
   const router = useRouter();
   const [currentUser, setCurrentUser] = useState(null); // Add currentUser state
@@ -22,7 +30,7 @@ const Index = () => {
         setCurrentUser(user);
       } else {
         // Redirect to login page if not logged in
-        router.push('/Admin/adminlogin.html'); // Change '/login' to the appropriate login page route
+        router.push('/Admin/adminlogin'); // Change '/login' to the appropriate login page route
       }
     });
     return () => unsubscribe();
@@ -308,6 +316,7 @@ const Index = () => {
   return (
     <div className='min-h-screen' >
       <AdminNavbar/>
+      {showSpinner && <Spinner />}
       <div className=' lg:ml-64 bg-gray-100  p-8'>
         <div className="flex items-center space-x-4">
           <div>

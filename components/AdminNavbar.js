@@ -8,7 +8,7 @@ export default function Index() {
   const handleLogout = () => {
     firebase.auth().signOut().then(() => {
       // Sign-out successful.
-      router.push('/Admin/adminlogin.html'); // Redirect to login page
+      router.push('/Admin/adminlogin'); // Redirect to login page
     }).catch((error) => {
       // An error happened.
       console.error('Logout Error:', error);
@@ -128,7 +128,7 @@ export default function Index() {
             <ul class="flex flex-col py-4 space-y-1">
               <li>
                 <a
-                  href="/Admin/dashboard.html"
+                  href="/Admin/dashboard"
                   class="relative flex flex-row items-center h-11 focus:outline-none hover:bg-gray-50 text-gray-600 hover:text-gray-800 border-l-4 border-transparent hover:border-indigo-500 pr-6"
                 >
                   <span class="inline-flex justify-center items-center ml-4">
@@ -139,7 +139,7 @@ export default function Index() {
               </li>
               <li>
                 <a
-                  href="/Admin/contactdetails.html"
+                  href="/Admin/contactdetails"
                   class="relative flex flex-row items-center h-11 focus:outline-none hover:bg-gray-50 text-gray-600 hover:text-gray-800 border-l-4 border-transparent hover:border-indigo-500 pr-6"
                 >
                   <span class="inline-flex justify-center items-center ml-4">
@@ -150,7 +150,7 @@ export default function Index() {
               </li>
               <li>
                 <a
-                  href="/Admin/timetable.html"
+                  href="/Admin/timetable"
                   class="relative flex flex-row items-center h-11 focus:outline-none hover:bg-gray-50 text-gray-600 hover:text-gray-800 border-l-4 border-transparent hover:border-indigo-500 pr-6"
                 >
                   <span class="inline-flex justify-center items-center ml-4">
@@ -161,7 +161,7 @@ export default function Index() {
               </li>
               <li>
                 <a
-                  href="/Admin/Userdata.html"
+                  href="/Admin/Userdata"
                   class="relative flex flex-row items-center h-11 focus:outline-none hover:bg-gray-50 text-gray-600 hover:text-gray-800 border-l-4 border-transparent hover:border-indigo-500 pr-6"
                 >
                   <span class="inline-flex justify-center items-center ml-4">
@@ -172,7 +172,7 @@ export default function Index() {
               </li>
               <li>
                 <a
-                  href="/Admin/subscription.html"
+                  href="/Admin/subscription"
                   class="relative flex flex-row items-center h-11 focus:outline-none hover:bg-gray-50 text-gray-600 hover:text-gray-800 border-l-4 border-transparent hover:border-indigo-500 pr-6"
                 >
                   <span class="inline-flex justify-center items-center ml-4">

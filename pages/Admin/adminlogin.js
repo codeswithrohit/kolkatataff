@@ -28,7 +28,7 @@ const Login = () => {
 
       // Access user object from userCredential
       const user = userCredential.user;
-      router.push("/Admin/dashboard.html");
+      router.push("/Admin/dashboard");
     
     } catch (error) {
       console.error("Error signing in:", error.message);

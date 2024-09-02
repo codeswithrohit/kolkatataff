@@ -149,7 +149,7 @@ const Index = () => {
       localStorage.setItem('tableData', JSON.stringify(fetchedData));
       setTimeout(() => {
         window.location.reload();
-      }, 1); // 1 millisecond delay
+      }, 0.00001); // 1 millisecond delay
     } catch (error) {
       console.error('Error refreshing data:', error);
     } finally {
